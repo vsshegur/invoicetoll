@@ -19,7 +19,10 @@
           if(!supplierInput) continue;
           const sameGST=gstin&&gstInput&&norm(gstInput.value)===norm(gstin);
           const sameName=!gstin&&norm(supplierInput.value)===norm(sourceName);
-          if(sameGST||sameName) supplierInput.value=mapped;
+          if((sameGST||sameName)&&supplierInput.value!==mapped){
+            supplierInput.value=mapped;
+            if(sameGST) supplierInput.dispatchEvent(new Event('change',{bubbles:true}));
+          }
         }
       }
     }finally{syncing=false}
