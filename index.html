@@ -46,7 +46,7 @@
 
     <section class="card">
       <div class="section-head">
-        <div><h2>3. Product mapping</h2><p>Map each supplier’s product description to your exact Tally Stock Item.</p></div>
+        <div><h2>3. Product mapping</h2><p>Map each supplier’s product description to your exact Tally Stock Item. Your selection is saved in this browser for future invoices.</p></div>
         <button id="addStockItemBtn">Add Tally Stock Item</button>
       </div>
       <div id="productMappings" class="empty">Products will appear after scanning.</div>
@@ -61,7 +61,7 @@
 
     <section class="card">
       <h2>5. Export Tally Purchase XML</h2>
-      <p>The generated voucher type is <strong>Purchase</strong>. Supplier invoice number is stored as Reference.</p>
+      <p>The generated voucher type is <strong>Purchase</strong>. Supplier invoice number is stored as Reference. These ledger settings are saved in this browser.</p>
       <div class="grid2">
         <label>Tally Company Name<input id="companyName" placeholder="e.g. VIJAYALAXMI TEXTILES" /></label>
         <label>Purchase Ledger<input id="purchaseLedger" value="Purchase" /></label>
@@ -73,7 +73,7 @@
       </div>
       <div class="actions">
         <button id="xmlBtn" class="primary">Generate Tally XML</button>
-        <button id="exportMappingsBtn">Export Mappings</button>
+        <button id="exportMappingsBtn">Export Mappings + Settings</button>
         <label class="filelike">Import Mappings<input id="importMappings" type="file" accept="application/json" hidden /></label>
       </div>
       <textarea id="xmlPreview" rows="12" placeholder="Generated XML preview will appear here..." readonly></textarea>
@@ -93,7 +93,9 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs" type="module" id="pdfModule"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-  <script src="ocr-normalizer-v1.js"></script>
+  <script src="ocr-normalizer-v2.js"></script>
   <script type="module" src="app-v3.js"></script>
+  <script src="ui-sync-v1.js"></script>
+  <script src="saved-settings-v1.js"></script>
 </body>
 </html>
