@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="Local-first invoice to Tally Purchase XML mapper" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Invoice → Tally Purchase</title>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Invoice → Tally Purchase</h1>
+      <p>Local browser tool • Supplier & product mapping • Purchase XML export</p>
+    </div>
+    <span id="modeBadge" class="badge">Local Mode</span>
+  </header>
+
+  <main class="container">
+    <section class="card hero">
+      <h2>1. Upload supplier invoices</h2>
+      <p>Select one or many PDF/JPG/PNG files. A PDF can contain multiple invoices.</p>
+      <input id="fileInput" type="file" accept="application/pdf,image/png,image/jpeg,image/webp" multiple />
+      <div class="actions">
+        <button id="scanBtn" class="primary">Scan Invoices</button>
+        <button id="clearBtn">Clear Session</button>
+      </div>
+      <div id="status" class="status">Ready.</div>
+      <progress id="progress" value="0" max="100" hidden></progress>
+      <details class="hint">
+        <summary>How the browser-only scanner works</summary>
+        <p>PDF pages are rendered in your browser and OCR is performed locally in the page using PDF.js + Tesseract.js loaded from their public CDNs. Your selected invoice files are not uploaded by this project.</p>
+      </details>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div><h2>2. Supplier mapping</h2><p>Match invoice supplier names to the exact supplier ledger name used in your Tally.</p></div>
+        <button id="addSupplierLedgerBtn">Add Tally Supplier Ledger</button>
+      </div>
+      <div id="supplierMappings" class="empty">Scan invoices to detect suppliers.</div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div><h2>3. Product mapping</h2><p>Map each supplier’s product description to your exact Tally Stock Item.</p></div>
+        <button id="addStockItemBtn">Add Tally Stock Item</button>
+      </div>
+      <div id="productMappings" class="empty">Products will appear after scanning.</div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div><h2>4. Review invoices</h2><p>Edit OCR results before generating the Purchase vouchers.</p></div>
+      </div>
+      <div id="invoiceReview" class="empty">No invoices scanned yet.</div>
+    </section>
+
+    <section class="card">
+      <h2>5. Export Tally Purchase XML</h2>
+      <p>The generated voucher type is <strong>Purchase</strong>. Supplier invoice number is stored as Reference.</p>
+      <div class="grid2">
+        <label>Tally Company Name<input id="companyName" placeholder="e.g. VIJAYALAXMI TEXTILES" /></label>
+        <label>Purchase Ledger<input id="purchaseLedger" value="Purchase" /></label>
+        <label>CGST Ledger<input id="cgstLedger" value="Input CGST" /></label>
+        <label>SGST Ledger<input id="sgstLedger" value="Input SGST" /></label>
+        <label>IGST Ledger<input id="igstLedger" value="Input IGST" /></label>
+        <label>Round Off Ledger<input id="roundOffLedger" value="Round Off" /></label>
+      </div>
+      <div class="actions">
+        <button id="xmlBtn" class="primary">Generate Tally XML</button>
+        <button id="exportMappingsBtn">Export Mappings</button>
+        <label class="filelike">Import Mappings<input id="importMappings" type="file" accept="application/json" hidden /></label>
+      </div>
+      <textarea id="xmlPreview" rows="12" placeholder="Generated XML preview will appear here..." readonly></textarea>
+    </section>
+  </main>
+
+  <dialog id="simpleDialog">
+    <form method="dialog" id="dialogForm">
+      <h3 id="dialogTitle">Add</h3>
+      <label id="dialogLabel">Name<input id="dialogInput" required /></label>
+      <div class="actions right">
+        <button value="cancel">Cancel</button>
+        <button id="dialogSave" value="default" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs" type="module" id="pdfModule"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
